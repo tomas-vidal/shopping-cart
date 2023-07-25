@@ -1,14 +1,36 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import styled from "styled-components"
 
 const Navbar = () => {
+    const NavItem = styled.li`
+    list-style: none;
+  `
+
+    const NavList = styled.ul`
+    display: flex;
+    gap: 10px;
+    margin: auto;
+`
+
+    const Nav = styled.nav`
+    display: flex;
+    padding: 20px;
+`
+
+
+
     return( 
-    <nav>
-        <ul>
-            <Link to="">Home</ Link>
-            <Link to="shopping">Shopping</Link> 
-        </ul>
-    </nav>
+    <Nav>
+        <NavList>
+            <NavItem>
+                <Link to="">Home</ Link>
+            </NavItem>
+            <NavItem>
+                <Link to="shopping">Shopping</Link> 
+            </NavItem>
+        </NavList>
+    </Nav>
     )
 }
 
