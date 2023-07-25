@@ -1,35 +1,59 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import styled from "styled-components"
+import { PiShoppingCartSimpleBold } from "react-icons/pi"
+
+const NavItem = styled.li`
+list-style: none;
+`
+
+const NavList = styled.ul`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+gap: 10px;
+`
+
+const Nav = styled.nav`
+display: flex;
+padding: 20px;
+border-bottom: 1px solid grey;
+align-items: center;
+`
+
+const LinkItemStyled = styled(NavLink)`
+text-decoration: none;
+color: #000000;
+
+
+&:hover {
+    color: red;
+}
+
+&.active {
+    font-weight: bold;
+}
+`
+
+const ShoppingCartIcon = styled(PiShoppingCartSimpleBold)`
+    font-size: 2rem;
+    cursor: pointer;
+`
 
 const Navbar = () => {
-    const NavItem = styled.li`
-    list-style: none;
-  `
-
-    const NavList = styled.ul`
-    display: flex;
-    gap: 10px;
-    margin: auto;
-`
-
-    const Nav = styled.nav`
-    display: flex;
-    padding: 20px;
-`
-
-
-
     return( 
     <Nav>
         <NavList>
             <NavItem>
-                <Link to="">Home</ Link>
+                <LinkItemStyled to="">Home</ LinkItemStyled>
             </NavItem>
             <NavItem>
-                <Link to="shopping">Shopping</Link> 
+                <LinkItemStyled to="shopping">Shopping</LinkItemStyled> 
             </NavItem>
         </NavList>
+        <ShoppingCartIcon />
+
     </Nav>
     )
 }
