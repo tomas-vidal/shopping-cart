@@ -4,8 +4,9 @@ import styled from "styled-components"
 
 const ShoppingItemsContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, clamp(200px, 25%, 300px));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, 250px);
+    grid-gap: 30px;
+    padding: 20px;
     justify-content: center;
 `
 
@@ -29,7 +30,7 @@ const Shopping = () => {
             <h2>Shopping</h2>
             <ShoppingItemsContainer>
                 {dataFetched.map( (item, key) => {
-                    return <ShoppingItem title={item.title} image={item.image} description={item.description} price={item.price}/>
+                    return <ShoppingItem title={item.title} image={item.image} description={item.description} price={item.price} key={key}/>
                 })}
 
 

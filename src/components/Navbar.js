@@ -17,9 +17,12 @@ gap: 10px;
 
 const Nav = styled.nav`
 display: flex;
-padding: 20px;
+padding: 10px;
 border-bottom: 1px solid grey;
 align-items: center;
+background: #ffffff;
+position: sticky;
+top: 0;
 `
 
 const LinkItemStyled = styled(NavLink)`

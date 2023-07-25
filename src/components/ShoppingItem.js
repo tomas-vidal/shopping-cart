@@ -1,30 +1,35 @@
 import React, { useState } from "react"
-import styled from "styled-components"
+import styled, {keyframes} from "styled-components"
 
 const ShoppingCard = styled.div`
-    border: 1px solid black;
-    border-radius: 16px;
+    background-color: #ffffff;
     text-align: center;
     padding: 30px;
+    box-shadow:0 0 10px 4px rgba(0,0,0,0.01);
+
 `
 
 const ShoppingCardTitle = styled.p`
-    margin-top: -1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
     line-height: 1rem;
     font-size: 1rem;
     font-weight: 700;
-    height: 30px;
+    height: 25px;
 `
 
 const ShoppingCardImg = styled.img`
-    width: 200px;
-    height: 200px;
+    height: 150px;
+    width: 100%;
     object-fit: contain;
 `
 
 const ShoppingCardDescription = styled.p`
-    font-size: 1rem;
+    font-size: .8rem;
+    color: #a1a1a1;
     font-style: italic;
+    margin-bottom: 25px;
 `
 const ShoppingCardDetails = styled.div`
     display: flex;
@@ -41,40 +46,60 @@ const ShoppingCardButton = styled.button`
     border: none;
     cursor: pointer;
     color: #ffffff; 
+    transform: scale(1);
+    transition: transform .1s ease-in-out;
+
+    &:active {
+        transform: scale(1.1)
+    }
 `
 
+
+
 const ShoppingCardAmount = styled.input`
-    width: 50px;
+    width: 30px;
+    padding: 5px;
+    font-size: .8rem;
+    border: 2px solid #eee;
+    margin-left: auto;
+    margin-right: 2px;
 `
 
 const ShoppingItem = ({title, image, description, price}) => {
     const [amount, setAmount] = useState(1);
 
-    const changeAmount = (value) => {
-        setAmount(value);
+    const addToCartItem = () => {
+        console.log("added to cart")
     }
 
+    const changeAmount = (value) => {
+        if (value <= 0) {
+            setAmount(1);
+            value = 1;
+        }
+        setAmount(value);
+    }
 
     return(
         <>
             <ShoppingCard>
+                <ShoppingCardImg src={image}></ShoppingCardImg>
                 <ShoppingCardTitle>
                     {
-                            title.length > 50 ?
-                        `${title.substring(0, 50)}...` : title
+                            title.length > 40 ?
+                        `${title.substring(0, 40)}...` : title
                     }
                     </ShoppingCardTitle>
-                <ShoppingCardImg src={image}></ShoppingCardImg>
                 <ShoppingCardDescription>
                    {
-                        description.length > 50 ?
-                    `${description.substring(0, 50)}...` : description
+                        description.length > 30 ?
+                    `${description.substring(0, 30)}...` : description
                    }
                 </ShoppingCardDescription>
                 <ShoppingCardDetails>
                     <ShoppingCardPrice>${price * amount}</ShoppingCardPrice>
-                    <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value)} value={amount} defaultValue={1} min={1}></ShoppingCardAmount>
-                    <ShoppingCardButton>buy</ ShoppingCardButton>
+                    <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value)} value={amount} min={1}></ShoppingCardAmount>
+                    <ShoppingCardButton onClick={() => {addToCartItem()}}>buy</ ShoppingCardButton>
                 </ShoppingCardDetails>
             </ShoppingCard>
         </>
