@@ -9,9 +9,13 @@ const Context = ({  children  }) => {
         setItemsInChart
     }
 
+    const deleteItem = (id) => {
+        setItemsInChart(prevItems => prevItems.filter( item => item.id !== id))
+
+    }
 
     return(
-        <CartContext.Provider value={{...providedProps}}>
+        <CartContext.Provider value={{...providedProps, deleteItem}}>
             {children }
         </CartContext.Provider>
     )

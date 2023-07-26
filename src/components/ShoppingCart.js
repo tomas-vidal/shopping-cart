@@ -17,7 +17,7 @@ const ShoppingCart = () => {
     return(
         <CartsContainer>
             {context.itemsInChart && context.itemsInChart.map( (item) => {
-               return <ItemShoppingCart title={item.title} image={item.image} description={item.description} price={item.price} amount={item.amount}/>
+               return <ItemShoppingCart title={item.title} image={item.image} description={item.description} price={item.price} amount={item.amount} id={item.id}/>
                 
             })}
         </ CartsContainer>

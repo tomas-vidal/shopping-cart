@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import styled from "styled-components"
 import { CartContext } from "../context/Context"
 
@@ -34,6 +34,7 @@ const ShoppingCardDescription = styled.p`
     color: #a1a1a1;
     font-style: italic;
     margin-bottom: 25px;
+    height: 20px;
 `
 const ShoppingCardDetails = styled.div`
     display: flex;
@@ -69,15 +70,32 @@ const ShoppingCardAmount = styled.input`
     margin-right: 2px;
 `
 
-const ShoppingItem = ({title, image, description, price}) => {
+const ShoppingItem = ({title, image, description, price, id}) => {
     const context = useContext(CartContext);
 
     const [amount, setAmount] = useState(1);
     const [totalItemPrice, setTotalItemPrice] = useState(price);
 
-    const addToCartItem = (title, description, image, price, amount) => {
-        context.setItemsInChart(prevItems => [...prevItems, {title, description, image, price, amount}])
-        console.log(context.itemsInChart)
+    const addToCartItem = (title, description, image, price, amount, id) => {
+        if (checkIfElementIsInCart(id)) {
+           const newArray = context.itemsInChart.map( (item) => {
+            if (item.id === id) {
+                return {
+                        ...item,
+                        amount: item.amount + amount,
+                    };
+            } 
+                return item
+           })
+           context.setItemsInChart(newArray);
+        } else {
+            context.setItemsInChart(prevItems => [...prevItems, {title, description, image, price, amount, id}])
+        }
+        setAmount(1);
+    }
+
+    const checkIfElementIsInCart = (id) => {
+        return context.itemsInChart.find((item) => (item.id === id));
     }
 
     const changeAmount = (value) => {
@@ -86,8 +104,11 @@ const ShoppingItem = ({title, image, description, price}) => {
             value = 1;
         }
         setAmount(value);
-        setTotalItemPrice(value*price);
     }
+
+    useEffect( () => {
+        setTotalItemPrice(amount*price);
+    }, [amount])
 
     return(
         <>
@@ -107,8 +128,8 @@ const ShoppingItem = ({title, image, description, price}) => {
                 </ShoppingCardDescription>
                 <ShoppingCardDetails>
                     <ShoppingCardPrice>${totalItemPrice}</ShoppingCardPrice>
-                    <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value)} value={amount} min={1}></ShoppingCardAmount>
-                    <ShoppingCardButton onClick={() => addToCartItem(title, description, image, totalItemPrice, amount)}>buy</ ShoppingCardButton>
+                    <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value, id)} value={amount} min={1}></ShoppingCardAmount>
+                    <ShoppingCardButton onClick={() => addToCartItem(title, description, image, price, amount, id)}>buy</ ShoppingCardButton>
                 </ShoppingCardDetails>
             </ShoppingCard>
         </>

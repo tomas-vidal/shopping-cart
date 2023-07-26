@@ -1,6 +1,8 @@
-import React, {useState} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import styled from "styled-components"
 import { TiCancel } from "react-icons/ti"
+import { CartContext } from "../context/Context"
+
 
 const CartContainer = styled.div`
     width: 80%;
@@ -74,22 +76,27 @@ const CancelIcon = styled(TiCancel)`
     cursor: pointer;
 `
 
-const ItemShoppingCart = ({title, image, description, price, amount}) => {
-    const [totalItemPrice, setTotalItemPrice] = useState(price);
-    const [itemAmount, setItemAmount] = useState(amount);
+const ItemShoppingCart = ({title, image, description, price, amount, id}) => {
 
+    const context = useContext(CartContext);
+    const [itemAmount, setItemAmount] = useState(amount);
+    const [totalItemPrice, setTotalItemPrice] = useState(itemAmount * price);
     const changeAmount = (value) => {
+
         if (value <= 0) {
             setItemAmount(1);
             value = 1;
         }
         setItemAmount(value);
-        setTotalItemPrice(value*price);
     }
+
+    useEffect( () => {
+        setTotalItemPrice(itemAmount * price);
+    }, [itemAmount])
 
     return( 
         <CartContainer>
-            <CancelIcon />
+            <CancelIcon onClick={() => context.deleteItem(id)} />
             <ImgCart src={image}></ImgCart>
             <DetailsCartContainer>
                 <TitleCart>{title}</TitleCart>

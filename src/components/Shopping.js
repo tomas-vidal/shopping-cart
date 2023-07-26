@@ -37,7 +37,7 @@ const Shopping = () => {
             <h2>Shopping</h2>
             <ShoppingItemsContainer>
                 {dataFetched.map( (item, key) => {
-                    return <ShoppingItem title={item.title} image={item.image} description={item.description} price={item.price} key={key}/>
+                    return <ShoppingItem title={item.title} image={item.image} description={item.description} price={Math.round(item.price)} id={item.id}/>
                 })}
 
 
