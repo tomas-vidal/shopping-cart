@@ -23,6 +23,8 @@ align-items: center;
 background: #ffffff;
 position: sticky;
 top: 0;
+margin-bottom: 20px;
+z-index: 10;
 `
 
 const LinkItemStyled = styled(NavLink)`
@@ -55,7 +57,8 @@ const Navbar = () => {
                 <LinkItemStyled to="shopping">Shopping</LinkItemStyled> 
             </NavItem>
         </NavList>
-        <ShoppingCartIcon />
+            
+        <LinkItemStyled to="shoppingcart"><ShoppingCartIcon /></LinkItemStyled>
 
     </Nav>
     )

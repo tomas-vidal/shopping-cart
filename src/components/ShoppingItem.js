@@ -1,5 +1,7 @@
-import React, { useState } from "react"
-import styled, {keyframes} from "styled-components"
+import React, { useState, useContext } from "react"
+import styled from "styled-components"
+import { CartContext } from "../context/Context"
+
 
 const ShoppingCard = styled.div`
     background-color: #ffffff;
@@ -16,6 +18,7 @@ const ShoppingCardTitle = styled.p`
     line-height: 1rem;
     font-size: 1rem;
     font-weight: 700;
+    margin-bottom: 5px;
     height: 25px;
 `
 
@@ -23,6 +26,7 @@ const ShoppingCardImg = styled.img`
     height: 150px;
     width: 100%;
     object-fit: contain;
+    margin-bottom: 15px;
 `
 
 const ShoppingCardDescription = styled.p`
@@ -66,10 +70,14 @@ const ShoppingCardAmount = styled.input`
 `
 
 const ShoppingItem = ({title, image, description, price}) => {
-    const [amount, setAmount] = useState(1);
+    const context = useContext(CartContext);
 
-    const addToCartItem = () => {
-        console.log("added to cart")
+    const [amount, setAmount] = useState(1);
+    const [totalItemPrice, setTotalItemPrice] = useState(price);
+
+    const addToCartItem = (title, description, image, price, amount) => {
+        context.setItemsInChart(prevItems => [...prevItems, {title, description, image, price, amount}])
+        console.log(context.itemsInChart)
     }
 
     const changeAmount = (value) => {
@@ -78,6 +86,7 @@ const ShoppingItem = ({title, image, description, price}) => {
             value = 1;
         }
         setAmount(value);
+        setTotalItemPrice(value*price);
     }
 
     return(
@@ -97,9 +106,9 @@ const ShoppingItem = ({title, image, description, price}) => {
                    }
                 </ShoppingCardDescription>
                 <ShoppingCardDetails>
-                    <ShoppingCardPrice>${price * amount}</ShoppingCardPrice>
+                    <ShoppingCardPrice>${totalItemPrice}</ShoppingCardPrice>
                     <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value)} value={amount} min={1}></ShoppingCardAmount>
-                    <ShoppingCardButton onClick={() => {addToCartItem()}}>buy</ ShoppingCardButton>
+                    <ShoppingCardButton onClick={() => addToCartItem(title, description, image, totalItemPrice, amount)}>buy</ ShoppingCardButton>
                 </ShoppingCardDetails>
             </ShoppingCard>
         </>

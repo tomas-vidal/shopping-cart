@@ -11,18 +11,25 @@ const ShoppingItemsContainer = styled.div`
 `
 
 const Shopping = () => {
-    const [dataFetched, setDataFetched] = useState("");
+    const [dataFetched, setDataFetched] = useState(null);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect( () => {
         fetch('https://fakestoreapi.com/products?limit=8')
-        .then( (res) => res.json())
+        .then((res) => {
+            if (res.status >= 400) {
+              throw new Error("server error");
+            }
+            return res.json();
+          })
         .then( (res) => setDataFetched(res))
+        .catch((error) => setError(error))
         .finally(() => setIsLoading(false))
     }, [])
-    console.log(dataFetched); 
 
+    if (error) return <p>A network error was encountered</p>;
     if (isLoading) return(<h2>Loading</h2>)
 
     return(
