@@ -7,6 +7,9 @@ import Context from "./context/Context"
 const AppStyled = styled.main`
   background-color: #f5f4f9;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
 `
 
 function App() {

@@ -37,12 +37,16 @@ const ShoppingCardDescription = styled.p`
     height: 20px;
 `
 const ShoppingCardDetails = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 30% 1fr;
     justify-content: space-between;
     align-items: center;
 `
 
 const ShoppingCardPrice = styled.span`
+    grid-area: 2 / 1 / 3 / 2;
+    text-align: left;
 `
 
 const ShoppingCardButton = styled.button`
@@ -53,6 +57,7 @@ const ShoppingCardButton = styled.button`
     color: #ffffff; 
     transform: scale(1);
     transition: transform .1s ease-in-out;
+    grid-area: 2 / 3 / 3 / 4;
 
     &:active {
         transform: scale(1.1)
@@ -67,7 +72,17 @@ const ShoppingCardAmount = styled.input`
     font-size: .8rem;
     border: 2px solid #eee;
     margin-left: auto;
-    margin-right: 2px;
+    grid-area: 2 / 2 / 3 / 3;
+    justify-self: self-end;
+    margin-right: 3px;
+`
+
+const ShoppingCardLabel = styled.label`
+    font-size: .7rem;
+    grid-area: 1 / 2 / 2 / 3;
+    justify-self: self-end;
+    margin-right: 3px;
+    color: #a1a1a1;
 `
 
 const ShoppingItem = ({title, image, description, price, id}) => {
@@ -128,7 +143,8 @@ const ShoppingItem = ({title, image, description, price, id}) => {
                 </ShoppingCardDescription>
                 <ShoppingCardDetails>
                     <ShoppingCardPrice>${totalItemPrice}</ShoppingCardPrice>
-                    <ShoppingCardAmount type="number" onChange={(e) => changeAmount(e.target.value, id)} value={amount} min={1}></ShoppingCardAmount>
+                    <ShoppingCardLabel htmlFor={id}>quantity</ShoppingCardLabel>
+                    <ShoppingCardAmount name="quantity" id={id} type="number" onChange={(e) => changeAmount(e.target.value, id)} value={amount} min={1}></ShoppingCardAmount>
                     <ShoppingCardButton onClick={() => addToCartItem(title, description, image, price, amount, id)}>buy</ ShoppingCardButton>
                 </ShoppingCardDetails>
             </ShoppingCard>

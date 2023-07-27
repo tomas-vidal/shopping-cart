@@ -23,7 +23,7 @@ const ImgCart = styled.img`
 `
 
 const PriceCart = styled.p`
-    align-self: self-end;
+    align-self: center;
     font-weight: 300;
     letter-spacing: 3px;
 `
@@ -41,6 +41,7 @@ const DescriptionCart = styled.p`
     font-size: .8rem;
     font-style: italic;
     align-self: self-start;
+    margin-top: 5px;
 `
 
 const DetailsCartContainer = styled.div`
@@ -48,7 +49,6 @@ const DetailsCartContainer = styled.div`
     grid-template-columns: 60% 40%;
     grid-template-rows: 40% 60%;
     align-items: center;
-   
     padding: 40px 30px 0px 0px;
 `
 const ShoppingCardAmount = styled.input`
@@ -57,7 +57,6 @@ const ShoppingCardAmount = styled.input`
     font-size: .8rem;
     border: 2px solid #eee;
     margin-right: 2px;
-    transform: translateY(5px);
 `
 
 const PriceAndQuantityContainer = styled.div`
@@ -76,18 +75,26 @@ const CancelIcon = styled(TiCancel)`
     cursor: pointer;
 `
 
+const ShoppingCardLabel = styled.label`
+    font-size: .7rem;
+    color: #a1a1a1;
+    align-self: center;
+`
+
+
 const ItemShoppingCart = ({title, image, description, price, amount, id}) => {
 
     const context = useContext(CartContext);
     const [itemAmount, setItemAmount] = useState(amount);
     const [totalItemPrice, setTotalItemPrice] = useState(itemAmount * price);
-    const changeAmount = (value) => {
+    const changeAmount = (id, value) => {
 
         if (value <= 0) {
             setItemAmount(1);
             value = 1;
         }
         setItemAmount(value);
+        context.changeAmountItem(id, value);
     }
 
     useEffect( () => {
@@ -101,7 +108,8 @@ const ItemShoppingCart = ({title, image, description, price, amount, id}) => {
             <DetailsCartContainer>
                 <TitleCart>{title}</TitleCart>
                 <PriceAndQuantityContainer>
-                    <ShoppingCardAmount type="number" value={itemAmount} onChange={(e) => {changeAmount(e.target.value)}}></ShoppingCardAmount>
+                    <ShoppingCardLabel for={id}>quantity</ShoppingCardLabel>
+                    <ShoppingCardAmount name="quantity" id={id} type="number" value={itemAmount} onChange={(e) => {changeAmount(id, e.target.value)}}></ShoppingCardAmount>
                     <PriceCart>${totalItemPrice}</PriceCart>
                 </PriceAndQuantityContainer>
                 <DescriptionCart>{description}</DescriptionCart>
